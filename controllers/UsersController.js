@@ -62,15 +62,8 @@ const login = async (req, res) => {
 
                 res.setHeader('set-cookie', [
                     `token=${token}; httpOnly=true; expires: ${expirationTime}; SameSite=None; Secure`,
-                ]);
-
-                res.setHeader('set-cookie', [
                     `user_id=${user.id}; httpOnly=true; expires: ${expirationTime}; SameSite=None; Secure`,
-                ]);
-                res.setHeader('set-cookie', [
                     `username=${user.firstName} ${user.lastName}; httpOnly=true; expires: ${expirationTime}; SameSite=None; Secure`,
-                ]);
-                res.setHeader('set-cookie', [
                     `avatar=${user.avatar}; httpOnly=true; expires: ${expirationTime}; SameSite=None; Secure`,
                 ]);
                 // res.cookie('set-cookie', 'cookie', {httpOnly: true, expires: expirationTime, sameSite: "none", secure: true})
