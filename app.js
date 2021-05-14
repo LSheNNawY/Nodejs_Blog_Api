@@ -14,6 +14,10 @@ const postsRouter = require('./routes/postsRoutes');
 
 const app = express();
 
+app.options('/api', (req, res, next) => {
+    res.cookie('cookie', 'secure', {sameSite: 'none', secure: true});
+})
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 
