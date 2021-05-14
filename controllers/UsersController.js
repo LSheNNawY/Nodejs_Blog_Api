@@ -60,17 +60,16 @@ const login = async (req, res) => {
                 const token = jwt.sign({email: user.email}, process.env.SECRET_KEY)
                 const expirationTime = new Date(Date.now() + parseInt(process.env.JWT_EXPIRATION));
 
-                res.cookie('token', token, {httpOnly: true, expires: expirationTime});
-                res.cookie('user_id', user.id, {httpOnly: true, expires: expirationTime});
-                res.cookie('username', `${user.firstName} ${user.lastName}`, {httpOnly: true, expires: expirationTime});
-                res.cookie('avatar', user.avatar, {httpOnly: true, expires: expirationTime});
+                res.cookie('token', token, {httpOnly: true, expires: expirationTime, sameSite: "none", secure: true});
+                res.cookie('user_id', user.id, {httpOnly: true, expires: expirationTime, sameSite: "none", secure: true});
+                res.cookie('username', `${user.firstName} ${user.lastName}`, {httpOnly: true, expires: expirationTime, sameSite: "none", secure: true});
+                res.cookie('avatar', user.avatar, {httpOnly: true, expires: expirationTime, sameSite: "none", secure: true});
                 return res.status(200).json({...data, token: token});
             }
             return res.status(401).json({"error": "invalid credentials"})
         })
 
     } catch (err) {
-        console.log(err)
         res.status(401).json({"error": "Error log you in, try again"});
     }
 }
