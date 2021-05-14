@@ -14,10 +14,6 @@ const postsRouter = require('./routes/postsRoutes');
 
 const app = express();
 
-// app.options('/api', (req, res, next) => {
-//     res.cookie('cookie', 'secure', {sameSite: 'none', secure: true});
-// })
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 
@@ -33,7 +29,12 @@ app.use(cors({
 app.use(logger('dev'));
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({extended: false}));
-app.use(cookieParser());
+app.use(cookieParser({
+    cookie: {
+        sameSite: 'none',
+        secure: true
+    }
+}));
 
 app.use('/api', [usersRouter, postsRouter]);
 
