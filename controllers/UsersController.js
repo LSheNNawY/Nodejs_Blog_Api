@@ -58,6 +58,7 @@ const login = async (req, res) => {
                 data.created_at = user.email;
 
                 const token = jwt.sign({email: user.email}, process.env.SECRET_KEY);
+                res.cookie('cookie', 'secure', {sameSite: 'lax'});
 
                 res.cookie('token', token, {httpOnly: true, expires: new Date(Date.now() + parseInt(process.env.JWT_EXPIRATION))});
                 res.cookie('user_id', user.id, {httpOnly: true, expires: new Date(Date.now() + parseInt(process.env.JWT_EXPIRATION))});
