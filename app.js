@@ -2,7 +2,6 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const session = require('express-session')
 
 const logger = require('morgan');
 const cors = require('cors');
@@ -10,7 +9,6 @@ const cors = require('cors');
 // mongodb connection
 require('./helpers/dbConnection');
 
-const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/userRoutes');
 const postsRouter = require('./routes/postsRoutes');
 
@@ -21,8 +19,6 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use('/api', express.static(path.join(__dirname, './public')));
 
-app.set('trust proxy', 1)
-
 app.use(cors({
     origin: process.env.CLIENT_ORIGIN,
     credentials: true
@@ -31,14 +27,8 @@ app.use(cors({
 app.use(logger('dev'));
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({extended: false}));
-// app.use(cookieParser());
-app.use(session({
-    secret: process.env.SECRET_KEY,
-    cookie: {
-        sameSite: 'none',
-        secure: true
-    }
-}))
+app.use(cookieParser());
+
 app.use('/api', [usersRouter, postsRouter]);
 
 // catch 404 and forward to error handler

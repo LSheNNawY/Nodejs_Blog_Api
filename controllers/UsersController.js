@@ -57,11 +57,12 @@ const login = async (req, res) => {
                 data.avatar = user.avatar;
                 data.created_at = user.email;
 
-                const token = jwt.sign({email: user.email}, process.env.SECRET_KEY);
-
+                const token = jwt.sign({email: user.email}, process.env.SECRET_KEY)
+                res.setHeader('set-cookie', [
+                    'cookie=cookie; SameSite=None; Secure',
+                ]);
                 res.cookie('token', token, {httpOnly: true, expires: new Date(Date.now() + parseInt(process.env.JWT_EXPIRATION))});
                 res.cookie('user_id', user.id, {httpOnly: true, expires: new Date(Date.now() + parseInt(process.env.JWT_EXPIRATION))});
-                res.cookie('email', user.email, {httpOnly: true, expires: new Date(Date.now() + parseInt(process.env.JWT_EXPIRATION))});
                 res.cookie('username', `${user.firstName} ${user.lastName}`, {httpOnly: true, expires: new Date(Date.now() + parseInt(process.env.JWT_EXPIRATION))});
                 res.cookie('avatar', user.avatar, {httpOnly: true, expires: new Date(Date.now() + parseInt(process.env.JWT_EXPIRATION))});
                 res.status(200).json({...data, token: token});
@@ -84,7 +85,7 @@ const login = async (req, res) => {
  */
 const getUser = async (req, res) => {
     try {
-        const user = await User.findOne({email: req.cookies.email});
+        const user = await User.findOne({_id: req.cookies.user_id});
         const posts = await Post.find({owner: user});
         user.posts = posts;
         res.status(200).json(user);
