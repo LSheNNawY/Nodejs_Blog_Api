@@ -19,7 +19,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use('/api', express.static(path.join(__dirname, './public')));
 
-app.set('trust proxy', 1)
+// app.set('trust proxy', 1)
 
 app.use(cors({
     origin: process.env.CLIENT_ORIGIN,
