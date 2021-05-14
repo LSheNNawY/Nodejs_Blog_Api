@@ -78,8 +78,7 @@ const login = async (req, res) => {
                 // res.cookie('user_id', user.id, {httpOnly: true, expires: expirationTime, sameSite: "none", secure: true});
                 // res.cookie('username', `${user.firstName} ${user.lastName}`, {httpOnly: true, expires: expirationTime, sameSite: "none", secure: true});
                 // res.cookie('avatar', user.avatar, {httpOnly: true, expires: expirationTime, sameSite: "none", secure: true});
-                // res.status(200).json({...data, token: token});
-                return res;
+                return res.status(200).json({...data, token: token});
             }
             return res.status(401).json({"error": "invalid credentials"})
         })
