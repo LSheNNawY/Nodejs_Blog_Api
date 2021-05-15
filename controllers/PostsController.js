@@ -197,9 +197,16 @@ const updatePost = async (req, res) => {
 const deletePost = async (req, res) => {
     const slug = req.params.slug;
     try {
-        const post = await Post.deleteOne({slug});
-        console.log(post);
-        res.status(200).json(post);
+        const post = await Post.findOne({slug});
+        post.delete().then((data) => {
+            fs.stat('./public/uploads/' + post.image, ((err, stats) => {
+                if (stats) {
+                    fs.rm('./public/uploads/' + post.image, () => {})
+                }
+            }))
+            res.status(200).json(data);
+        })
+
     } catch (err) {
         console.log(err);
     }
