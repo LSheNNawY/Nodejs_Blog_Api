@@ -33,9 +33,5 @@ router.put('/follow', async (req, res) => {
     await UsersController.makeFollow(req, res);
 });
 
-/* POST follow */
-router.get('/users', async (req, res) => {
-    await UsersController.getAllUsers(req, res);
-});
 
 module.exports = router;
